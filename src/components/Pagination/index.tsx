@@ -1,4 +1,4 @@
-import React, { MouseEvent, useEffect, useState } from "react"
+import React, { MouseEvent, useEffect, useState } from "react";
 
 const Pagination = ({
   totalItems,
@@ -8,64 +8,46 @@ const Pagination = ({
   disabled,
   pageSize,
 }: {
-  totalItems: number
-  pageSize: number
-  itemsPerPage: number
-  onPageChange: (page: number) => Promise<void>
-  nextPage: number
-  disabled: boolean
+  totalItems: number;
+  pageSize: number;
+  itemsPerPage: number;
+  onPageChange: (page: number) => Promise<void>;
+  nextPage: number;
+  disabled: boolean;
 }) => {
   if (pageSize < 1) {
-    pageSize = 1
+    pageSize = 1;
   } else if (pageSize > totalItems) {
-    pageSize = totalItems
+    pageSize = totalItems;
   }
 
-  const totalPages = Math.ceil(totalItems / pageSize)
+  const totalPages = Math.ceil(totalItems / pageSize);
 
-  const [currentPage, setCurrentPage] = useState(nextPage)
-  const [isDisabled, setIsDisabled] = useState(disabled)
-
-  //   let totalPages = Math.ceil(totalItems / itemsPerPage)
-
-  //   if (currentPage <= totalPages) {
-  //     totalPages = itemsPerPage
-  //   } else {
-  //     totalPages = (totalItems % itemsPerPage) - 1
-  //   }
-
-  console.log(
-    "\n\n\n\n\ntotalPages",
-    totalPages,
-    "totalItems: ",
-    totalItems,
-    "itemsPerPage: ",
-    itemsPerPage,
-    "CURRENT PAGE: ",
-    currentPage,
-    "PAGE SIZE: ",
-    pageSize,
-    "math: ",
-    Math.ceil(totalItems / itemsPerPage),
-    totalItems % itemsPerPage,
-    "\n"
-  )
+  const [currentPage, setCurrentPage] = useState(nextPage);
+  const [isDisabled, setIsDisabled] = useState(disabled);
 
   async function handlePageChange(page: number) {
-    // console.log("\n\n\n\n\nCURRENT PAGE: ", currentPage, "PAGE: ", page, "\n\n\n\n")
+    setIsDisabled(true);
 
-    setIsDisabled(true)
+    setCurrentPage(page);
+    await onPageChange(page);
 
-    setCurrentPage(page)
-    await onPageChange(page)
-
-    setIsDisabled(false)
+    setIsDisabled(false);
   }
 
   return (
-    <div style={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
+    <div
+      style={{
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+      }}
+    >
       <button
-        style={{ marginRight: "10px", cursor: `${currentPage === 1 || isDisabled ? "" : "pointer"}` }}
+        style={{
+          marginRight: "10px",
+          cursor: `${currentPage === 1 || isDisabled ? "" : "pointer"}`,
+        }}
         disabled={!currentPage || currentPage === 1 || isDisabled}
         onClick={() => handlePageChange(currentPage - 1)}
       >
@@ -91,7 +73,9 @@ const Pagination = ({
       <button
         style={{
           marginLeft: "10px",
-          cursor: `${currentPage === totalPages || isDisabled ? "" : "pointer"}`,
+          cursor: `${
+            currentPage === totalPages || isDisabled ? "" : "pointer"
+          }`,
         }}
         disabled={!currentPage || currentPage === totalPages || isDisabled}
         onClick={() => handlePageChange(currentPage + 1)}
@@ -99,7 +83,7 @@ const Pagination = ({
         Next
       </button>
     </div>
-  )
-}
+  );
+};
 
-export default Pagination
+export default Pagination;
