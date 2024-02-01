@@ -1,0 +1,38 @@
+export type Transaction = {
+  id: string
+  amount: number
+  employee: Employee
+  merchant: string
+  date: string
+  approved: boolean
+}
+
+export type Employee = {
+  id: string
+  firstName: string
+  lastName: string
+}
+
+export type PaginatedResponse<TData> = {
+  data: TData
+  nextPage: number | null
+  totalTransactions: number
+}
+
+export type PaginatedRequestParams = {
+  page: number | null
+  pageSize: number
+}
+
+export type PaginatedEmployeeRequestParams = PaginatedRequestParams & {
+  employeeId: string
+}
+
+export type RequestByEmployeeParams = {
+  employeeId: string
+}
+
+export type SetTransactionApprovalParams = {
+  transactionId: string
+  value: boolean
+}
